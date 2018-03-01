@@ -16,6 +16,8 @@ return [
                 'users' => 'App\GraphQL\Query\UsersQuery'
             ],
             'mutation' => [
+                'updateUserPassword' => 'App\GraphQL\Mutation\UpdateUserPasswordMutation',
+                'updateUser' => 'App\GraphQL\Mutation\UpdateUserMutation'
             ],
             'middleware' => [],
         ],
