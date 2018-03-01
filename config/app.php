@@ -150,6 +150,8 @@ return [
         /*
          * Package Service Providers...
          */
+        Rebing\GraphQL\GraphQLServiceProvider::class,
+        Graphiql\GraphiqlServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -159,7 +161,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Rebing\GraphQL\GraphQLServiceProvider::class,
 
     ],
 

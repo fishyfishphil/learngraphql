@@ -1,50 +1,45 @@
 <?php
 namespace App\GraphQL\Query;
-use App\User;
+
+use GraphQL;
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Query;
-use Rebing\GraphQL\Support\SelectFields;
-class UsersQuery extends Query
-{
+use App\User;
+
+class UsersQuery extends Query {
+
     protected $attributes = [
-        'name' => 'Users Query',
-        'description' => 'A query of users'
+        'name' => 'Users query'
     ];
+
     public function type()
     {
-        // result of query with pagination laravel
-        return GraphQL::paginate('users');
+        return Type::listOf(GraphQL::type('user'));
     }
 
-    // arguments to filter query
     public function args()
     {
         return [
-            'id' => [
-                'name' => 'id',
-                'type' => Type::int()
-            ],
-            'email' => [
-                'name' => 'email',
-                'type' => Type::string()
-            ]
+            'id' => ['name' => 'id', 'type' => Type::string()],
+            'name' => ['name' => 'name', 'type' => Type::string()],
+            'email' => ['name' => 'email', 'type' => Type::string()]
         ];
     }
-    public function resolve($root, $args, SelectFields $fields)
+
+    public function resolve($root, $args)
     {
-        $where = function ($query) use ($args) {
-            if (isset($args['id'])) {
-                $query->where('id',$args['id']);
-            }
-            if (isset($args['email'])) {
-                $query->where('email',$args['email']);
-            }
-        };
-        $user = User::with(array_keys($fields->getRelations()))
-            ->where($where)
-            ->select($fields->getSelect())
-            ->paginate();
-        return $user;
+        if(isset($args['id']))
+        {
+            return User::where('id' , $args['id'])->get();
+        }
+        else if(isset($args['email']))
+        {
+            return User::where('email', $args['email'])->get();
+        }
+        else
+        {
+            return User::all();
+        }
     }
+
 }
