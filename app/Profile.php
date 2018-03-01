@@ -4,7 +4,27 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Profile
+ * @package App
+ */
 class Profile extends Model
 {
-    //
+    /**
+     * @var array
+     */
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'avatar',
+        'user_id',
+    ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
